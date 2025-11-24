@@ -1,5 +1,8 @@
 Welcome to krapets !
-<p>https://kyojiyamura.github.io/VillaKrapets/Summerland-1</p>
-<p>https://kyojiyamura.github.io/VillaKrapets/Summerland-2</p>
-<p>https://kyojiyamura.github.io/VillaKrapets/Nadya</p>
-<p>https://kyojiyamura.github.io/VillaKrapets/Vyara</p>
+
+<link rel="stylesheet" href="https://kyojiyamura.github.io/VillaKrapets/Summerland-1">
+<link rel="stylesheet" href="https://kyojiyamura.github.io/VillaKrapets/Summerland-2">
+<link rel="stylesheet" href="https://kyojiyamura.github.io/VillaKrapets/Nadya">
+<link rel="stylesheet" href="https://kyojiyamura.github.io/VillaKrapets/Vyara">
+ 
+
