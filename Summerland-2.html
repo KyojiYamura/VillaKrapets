@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <meta name="description" content="Welcome to Summerland Villa – your relaxing beachfront home away from home. Enjoy comfort, amenities, and easy access to the beach." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <title>Welcome to Summerland</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('bg_wallpaper.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, sans-serif;
+      position: relative;
+      color: white;
+    }
+    /* Overlay for better text readability */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4); /* semi-transparent black */
+      z-index: -1;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4">
+
+  <!-- Overlay for darkening the background image -->
+  <div id="overlay"></div>
+
+  <!-- Language Dropdown (fixed positioning) -->
+  <div class="fixed top-4 right-4 z-50 max-w-[90%]">
+    <div class="relative inline-block">
+      <button id="language-btn" aria-label="Change language" class="backdrop-blur-md bg-white/20 border border-white/30 text-white hover:bg-white/30 active:scale-95 transition-transform duration-100 rounded-full px-4 py-2 flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-white/60">
+        🌐 <span id="lang-flag" class="ml-2">🇧🇬</span>
+      </button>
+
+      <div id="dropdown-menu" class="absolute right-0 mt-2 w-40 sm:w-36 backdrop-blur-md bg-white/20 border border-white/30 text-white text-sm rounded-md hidden shadow-lg">
+        <button onclick="setLanguage('en')" class="block w-full text-left px-4 py-2 hover:bg-white/30">🇺🇸 English</button>
+        <button onclick="setLanguage('bg')" class="block w-full text-left px-4 py-2 hover:bg-white/30">🇧🇬 Български</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-md mx-auto space-y-6" id="content"></div>
+  <!-- Toast notification for feedback -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded shadow-lg text-sm z-50 hidden" role="status" aria-live="polite"></div>
+  <script>
+    const translations = {
+      bg: {
+        welcome: "Добре дошли в SummeLand",
+        subtitle: "Вашият дом далеч от дома",
+        message:
+          "Благодарим ви, че избрахте нашата вила за вашия престой. Надяваме се да прекарате прекрасно и релаксиращо време. Всичко необходимо е тук за вашия комфорт и удобство.",
+        wifiConnect: "Свържи се с WiFi",
+        leaveReview: "Остави отзив",
+        callUs: "Обади ни се",
+        wifiName: "Копиране на WiFi парола",
+        wifiPassword: "Welcome2024",
+        wifiInstructions: "WiFi паролата е копирана!",
+        reviewText: "Споделете опита си с други гости",
+        callText: "Нужда от помощ? Тук сме 24/7",
+        amenities: "Удобства на вилата",
+        checkin: "Настаняване: 15:00",
+        checkout: "Напускане: 11:00",
+        guests: "До 6 гости",
+        location: "Локация на плажа",
+      },
+      en: {
+        welcome: "Welcome to Summerland",
+        subtitle: "Your home away from home",
+        message:
+          "Thank you for choosing our villa for your stay. We hope you have a wonderful and relaxing time. Everything you need is here for your comfort and convenience.",
+        wifiConnect: "Connect to WiFi",
+        leaveReview: "Leave a Review",
+        callUs: "Call Us",
+        wifiName: "Copy WiFi password",
+        wifiPassword: "Welcome2024",
+        wifiInstructions: "WiFi credentials copied to clipboard!",
+        reviewText: "Share your experience with other guests",
+        callText: "Need assistance? We're here to help 24/7",
+        amenities: "Villa Amenities",
+        checkin: "Check-in: 3:00 PM",
+        checkout: "Check-out: 11:00 AM",
+        guests: "Up to 6 guests",
+        location: "Beachfront location",
+      },
+    }
+
+    let language = "bg"
+
+    function setLanguage(lang) {
+      language = lang
+      renderContent()
+      document.getElementById("lang-flag").textContent = lang === "en" ? "🇺🇸" : "🇧🇬"
+      document.getElementById("dropdown-menu").classList.add("hidden")
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.remove("hidden");
+      setTimeout(() => toast.classList.add("hidden"), 2000);
+    }
+
+    function renderContent() {
+      const t = translations[language]
+      document.getElementById("content").innerHTML = `
+        <div class="text-center pt-16 pb-8">
+          <h1 class="text-3xl font-bold drop-shadow-lg">${t.welcome}</h1>
+          <p class="text-lg drop-shadow">${t.subtitle}</p>
+        </div>
+
+        <div class="backdrop-blur-md bg-white/20 border border-white/30 shadow-xl p-6 rounded-lg">
+          <p class="text-center leading-relaxed">${t.message}</p>
+        </div>
+
+        <div class="backdrop-blur-md bg-white/20 border border-white/30 shadow-xl p-6 rounded-lg">
+          <h3 class="font-semibold mb-4 text-center">${t.amenities}</h3>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="flex items-center gap-2">🕒 ${t.checkin}</div>
+            <div class="flex items-center gap-2">🕒 ${t.checkout}</div>
+            <div class="flex items-center gap-2">👥 ${t.guests}</div>
+            <div class="flex items-center gap-2">📍 ${t.location}</div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <button onclick="handleWifi()" aria-label="Copy WiFi password" class="w-full h-16 min-h-[56px] backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 active:scale-95 transition-transform duration-100 shadow-lg hover:shadow-xl flex items-center px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60">
+            📶
+            <div class="text-left ml-3">
+              <div class="font-semibold">${t.wifiConnect}</div>
+              ${t.wifiName !== "---------" ? `<div class="text-sm opacity-90">${t.wifiName}</div>` : ""}
+            </div>
+          </button>
+
+          <button onclick="handleReview()" aria-label="Leave a review" class="w-full h-16 min-h-[56px] backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 active:scale-95 transition-transform duration-100 shadow-lg hover:shadow-xl flex items-center px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60">
+            ⭐
+            <div class="text-left ml-3">
+              <div class="font-semibold">${t.leaveReview}</div>
+              <div class="text-sm opacity-90">${t.reviewText}</div>
+            </div>
+          </button>
+
+          <button onclick="handleCall()" aria-label="Call us" class="w-full h-16 min-h-[56px] backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 active:scale-95 transition-transform duration-100 shadow-lg hover:shadow-xl flex items-center px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60">
+            📞
+            <div class="text-left ml-3">
+              <div class="font-semibold">${t.callUs}</div>
+              <div class="text-sm opacity-90">${t.callText}</div>
+            </div>
+          </button>
+        </div>
+
+        <!-- Feedback form removed -->
+        <div class="text-center pt-8 pb-4">
+          <p class="text-white/70 text-sm">SummerLand © 2024</p>
+        </div>
+      `
+      // Feedback form logic removed
+    }
+
+    function handleWifi() {
+      const t = translations[language];
+      navigator.clipboard.writeText(t.wifiPassword).then(() => {
+        showToast(t.wifiInstructions);
+      }).catch(() => {
+        showToast('Failed to copy WiFi password. Please copy manually.');
+      });
+    }
+
+    function handleReview() {
+      window.open("https://g.page/r/Ce-P40BeAlBjEAE/review", "_blank");
+    }
+
+    function handleCall() {
+      window.location.href = "tel:+359896850855";
+    }
+
+    document.getElementById("language-btn").addEventListener("click", () => {
+      const dropdown = document.getElementById("dropdown-menu");
+      dropdown.classList.toggle("hidden");
+    });
+
+    window.addEventListener("click", (e) => {
+      const btn = document.getElementById("language-btn");
+      const menu = document.getElementById("dropdown-menu");
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add("hidden");
+      }
+    });
+
+    renderContent();
+  </script>
+</body>
+</html>
